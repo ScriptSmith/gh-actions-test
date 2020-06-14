@@ -89,7 +89,7 @@ jobs:
           username: $GITHUB_ACTOR
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Pull docker images
-        run: docker-compose -f docker-compose-teststack-base.yml -f docker-compose-teststack-dev.yml -f docker-compose.yml pull
+        run: docker-compose -f docker-compose-teststack-base.yml -f docker-compose-teststack-dev.yml -f docker-compose-aloe.yml -f docker-compose.yml pull
       - name: Create log dir
         run: mkdir -p data/aloe/dev
       - name: Integration tests

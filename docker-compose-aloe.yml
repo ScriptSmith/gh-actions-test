@@ -19,7 +19,7 @@ services:
     build:
       context: .
       dockerfile: docker/dev/Dockerfile
-    image: ${APP_IMAGE_NAME}
+    image: docker.pkg.github.com/scriptsmith/gh-actions-test/runserver
     command: aloe
     environment:
       <<: *common-env-variables
@@ -33,7 +33,7 @@ services:
     build:
       context: .
       dockerfile: docker/dev/Dockerfile
-    image: ${APP_IMAGE_NAME}
+    image: docker.pkg.github.com/scriptsmith/gh-actions-test/runserver
     command: aloe
     environment:
       <<: *common-env-variables
