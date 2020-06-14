@@ -38,6 +38,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ./.github/actions/setup-env
+      - run: mkdir -p data/aloe
       - name: Integration tests
         run: ./scripts/end2end-tests.sh
   system_checks:
