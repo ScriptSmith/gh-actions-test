@@ -1,7 +1,8 @@
-name: 'Setup env'
-description: 'Setup the local enviroment files'
+name: "Setup env"
+description: "Setup the local enviroment files"
 runs:
-  using: 'docker'
-  image: 'docker://alpine:latest'
+  using: "docker"
+  image: "docker://alpine:latest"
   args:
-    - 'touch .env_local'
+    - touch
+    - .env_local
