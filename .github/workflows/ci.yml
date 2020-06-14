@@ -53,9 +53,7 @@ jobs:
           username: $GITHUB_ACTOR
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Pull docker images
-        run: |
-          docker pull $PACKAGE_PATH/runserver:latest
-          docker pull $PACKAGE_PATH/nodeserver:latest
+        run: docker-compose pull
       - name: Django migrations check
         run: ./scripts/check-migrations.sh
 
@@ -73,9 +71,7 @@ jobs:
           username: $GITHUB_ACTOR
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Pull docker images
-        run: |
-          docker pull $PACKAGE_PATH/runserver:latest
-          docker pull $PACKAGE_PATH/nodeserver:latest
+        run: docker-compose pull
       - name: Unit tests
         run: ./scripts/unit-tests.sh
 
@@ -93,10 +89,8 @@ jobs:
           username: $GITHUB_ACTOR
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Pull docker images
-        run: |
-          docker pull $PACKAGE_PATH/runserver:latest
-          docker pull $PACKAGE_PATH/nodeserver:latest
-      - run: mkdir -p data/aloe
+        run: docker-compose pull
+      - run: mkdir -p data/aloe/dev
       - name: Integration tests
         run: ./scripts/end2end-tests.sh
 
@@ -114,8 +108,6 @@ jobs:
           username: $GITHUB_ACTOR
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Pull docker images
-        run: |
-          docker pull $PACKAGE_PATH/runserver:latest
-          docker pull $PACKAGE_PATH/nodeserver:latest
+        run: docker-compose pull
       - name: Django checks
         run: ./scripts/django-checks.sh
