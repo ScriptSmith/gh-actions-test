@@ -24,23 +24,27 @@ jobs:
       - uses: ./.github/actions/setup-env
       - name: Django migrations check
         run: ./scripts/check-migrations.sh
-  tests:
-    name: Run tests
+  unit_tests:
+    name: Unit tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: ./.github/actions/setup-env
       - name: Unit tests
         run: ./scripts/unit-tests.sh
+  integration_tests:
+    name: Integration tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/setup-env
       - name: Integration tests
         run: ./scripts/end2end-tests.sh
-  audit:
-    name: Check internal consistency
+  system_checks:
+    name: System checks
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: ./.github/actions/setup-env
       - name: Django checks
         run: ./scripts/django-checks.sh
-      - name: JS dependency checks
-        run: ./scripts/js_dependencies.py
