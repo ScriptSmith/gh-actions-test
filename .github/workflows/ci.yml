@@ -1,12 +1,12 @@
 name: Continuous Integration
-on: [push]
-#push:
-#   branches:
-#     - master
-#     - next-release
-# pull_request:
-#   branches:
-#     - next-release
+on:
+  push:
+     branches:
+       - master
+       - next_release
+   pull_request:
+     branches:
+       - next_release
 
 jobs:
   lint:
