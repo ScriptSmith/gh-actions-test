@@ -15,6 +15,7 @@ jobs:
     name: Build dev container
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - name: Docker login
         uses: azure/docker-login@v1
         with:
