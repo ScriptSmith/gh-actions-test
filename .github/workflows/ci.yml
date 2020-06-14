@@ -9,43 +9,87 @@ on:
       - next_release
 
 jobs:
+  build_dev:
+    name: Build dev container
+    runs-on: ubuntu-latest
+    steps:
+      - name: Docker login
+        uses: azure/docker-login@v1
+        with:
+          login-server: docker.pkg.github.com
+          username: $GITHUB_ACTOR
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build django image
+        run: docker build -t docker.pkg.github.com/$GITHUB_REPOSITORY/runserver:latest . -f docker/dev/Dockerfile
+      - name: Build node image
+        run: docker build -t docker.pkg.github.com/$GITHUB_REPOSITORY/nodeserver:latest . -f docker/dev/Dockerfile-node
+      - name: Publish images
+        run: |
+          docker push docker.pkg.github.com/$GITHUB_REPOSITORY/runserver:latest
+          docker push docker.pkg.github.com/$GITHUB_REPOSITORY/nodeserver:latest
+
   lint:
     name: Lint
     runs-on: ubuntu-latest
+    needs: build_dev
     steps:
       - uses: actions/checkout@v2
       - name: Flake8 linting
         uses: ./.github/actions/flake8
+
   migration_check:
     name: Check migrations
     runs-on: ubuntu-latest
+    needs: build_dev
     steps:
       - uses: actions/checkout@v2
       - uses: ./.github/actions/setup-env
+      - name: Pull docker images
+        run: |
+          docker pull docker.pkg.github.com/$GITHUB_REPOSITORY/runserver:latest
+          docker pull docker.pkg.github.com/$GITHUB_REPOSITORY/nodeserver:latest
       - name: Django migrations check
         run: ./scripts/check-migrations.sh
+
   unit_tests:
     name: Unit tests
     runs-on: ubuntu-latest
+    needs: build_dev
     steps:
       - uses: actions/checkout@v2
       - uses: ./.github/actions/setup-env
+      - name: Pull docker images
+        run: |
+          docker pull docker.pkg.github.com/$GITHUB_REPOSITORY/runserver:latest
+          docker pull docker.pkg.github.com/$GITHUB_REPOSITORY/nodeserver:latest
       - name: Unit tests
         run: ./scripts/unit-tests.sh
+
   integration_tests:
     name: Integration tests
     runs-on: ubuntu-latest
+    needs: build_dev
     steps:
       - uses: actions/checkout@v2
       - uses: ./.github/actions/setup-env
+      - name: Pull docker images
+        run: |
+          docker pull docker.pkg.github.com/$GITHUB_REPOSITORY/runserver:latest
+          docker pull docker.pkg.github.com/$GITHUB_REPOSITORY/nodeserver:latest
       - run: mkdir -p data/aloe
       - name: Integration tests
         run: ./scripts/end2end-tests.sh
+
   system_checks:
     name: System checks
     runs-on: ubuntu-latest
+    needs: build_dev
     steps:
       - uses: actions/checkout@v2
       - uses: ./.github/actions/setup-env
+      - name: Pull docker images
+        run: |
+          docker pull docker.pkg.github.com/$GITHUB_REPOSITORY/runserver:latest
+          docker pull docker.pkg.github.com/$GITHUB_REPOSITORY/nodeserver:latest
       - name: Django checks
         run: ./scripts/django-checks.sh
