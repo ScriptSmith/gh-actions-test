@@ -90,9 +90,15 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Pull docker images
         run: docker-compose -f docker-compose-teststack-dev.yml -f docker-compose.yml pull
-      - run: mkdir -p data/aloe/dev
+      - name: Create log dir
+        run: mkdir -p data/aloe/dev
       - name: Integration tests
         run: ./scripts/end2end-tests.sh
+      - name: Upload test output
+        uses: actions/upload-artifact@v2
+        with:
+          name: Aloe output
+          path: data/aloe/dev
 
   system_checks:
     name: System checks
