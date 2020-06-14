@@ -1,0 +1,7 @@
+name: 'Flake8'
+description: 'Run flake8 linter'
+runs:
+  using: 'docker'
+  image: 'docker://alpine/flake8'
+  args:
+    - flake /github/workspace

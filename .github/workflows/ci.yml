@@ -1,0 +1,46 @@
+name: Continuous Integration
+on:
+  push:
+    branches:
+      - master
+      - next-release
+  pull_request:
+    branches:
+      - next-release
+
+jobs:
+  lint:
+    name: Lint code
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Flake8 linting
+        uses: ./.github/actions/flake8
+
+  # migration_check:
+  #   name: Check migrations
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Django migrations check
+  #       uses: ./.github/actions/check-django-migrations
+
+  # tests:
+  #   name: Run tests
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Unit tests
+  #       uses: ./.github/actions/unit-tests
+  #     - name: Integration tests
+  #       uses: ./github/actions/integration-tests
+
+  # audit:
+  #   name: Check internal consistency
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Django checks
+  #       uses: ./github/actions/django-checks
+  #     - name: JS dependency checks
+  #       uses: ./github/actions/js-checks
