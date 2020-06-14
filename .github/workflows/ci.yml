@@ -46,6 +46,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ./.github/actions/setup-env
+      - name: Docker login
+        uses: azure/docker-login@v1
+        with:
+          login-server: docker.pkg.github.com
+          username: $GITHUB_ACTOR
+          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Pull docker images
         run: |
           docker pull $PACKAGE_PATH/runserver:latest
@@ -60,6 +66,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ./.github/actions/setup-env
+      - name: Docker login
+        uses: azure/docker-login@v1
+        with:
+          login-server: docker.pkg.github.com
+          username: $GITHUB_ACTOR
+          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Pull docker images
         run: |
           docker pull $PACKAGE_PATH/runserver:latest
@@ -74,6 +86,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ./.github/actions/setup-env
+      - name: Docker login
+        uses: azure/docker-login@v1
+        with:
+          login-server: docker.pkg.github.com
+          username: $GITHUB_ACTOR
+          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Pull docker images
         run: |
           docker pull $PACKAGE_PATH/runserver:latest
@@ -89,6 +107,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ./.github/actions/setup-env
+      - name: Docker login
+        uses: azure/docker-login@v1
+        with:
+          login-server: docker.pkg.github.com
+          username: $GITHUB_ACTOR
+          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Pull docker images
         run: |
           docker pull $PACKAGE_PATH/runserver:latest
