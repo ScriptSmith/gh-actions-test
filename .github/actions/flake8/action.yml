@@ -4,4 +4,4 @@ runs:
   using: 'docker'
   image: 'docker://alpine/flake8'
   args:
-    - flake /github/workspace
+    - /github/workspace
