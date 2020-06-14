@@ -7,6 +7,8 @@ on:
   pull_request:
     branches:
       - next_release
+env:
+  PACKAGE_PATH: docker.pkg.github.com/scriptsmith/gh-actions-test
 
 jobs:
   build_dev:
@@ -20,13 +22,13 @@ jobs:
           username: $GITHUB_ACTOR
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build django image
-        run: docker build -t docker.pkg.github.com/$GITHUB_REPOSITORY/runserver:latest . -f docker/dev/Dockerfile
+        run: docker build -t $PACKAGE_PATH/runserver:latest . -f docker/dev/Dockerfile
       - name: Build node image
-        run: docker build -t docker.pkg.github.com/$GITHUB_REPOSITORY/nodeserver:latest . -f docker/dev/Dockerfile-node
+        run: docker build -t $PACKAGE_PATH/nodeserver:latest . -f docker/dev/Dockerfile-node
       - name: Publish images
         run: |
-          docker push docker.pkg.github.com/$GITHUB_REPOSITORY/runserver:latest
-          docker push docker.pkg.github.com/$GITHUB_REPOSITORY/nodeserver:latest
+          docker push $PACKAGE_PATH/runserver:latest
+          docker push $PACKAGE_PATH/nodeserver:latest
 
   lint:
     name: Lint
@@ -46,8 +48,8 @@ jobs:
       - uses: ./.github/actions/setup-env
       - name: Pull docker images
         run: |
-          docker pull docker.pkg.github.com/$GITHUB_REPOSITORY/runserver:latest
-          docker pull docker.pkg.github.com/$GITHUB_REPOSITORY/nodeserver:latest
+          docker pull $PACKAGE_PATH/runserver:latest
+          docker pull $PACKAGE_PATH/nodeserver:latest
       - name: Django migrations check
         run: ./scripts/check-migrations.sh
 
@@ -60,8 +62,8 @@ jobs:
       - uses: ./.github/actions/setup-env
       - name: Pull docker images
         run: |
-          docker pull docker.pkg.github.com/$GITHUB_REPOSITORY/runserver:latest
-          docker pull docker.pkg.github.com/$GITHUB_REPOSITORY/nodeserver:latest
+          docker pull $PACKAGE_PATH/runserver:latest
+          docker pull $PACKAGE_PATH/nodeserver:latest
       - name: Unit tests
         run: ./scripts/unit-tests.sh
 
@@ -74,8 +76,8 @@ jobs:
       - uses: ./.github/actions/setup-env
       - name: Pull docker images
         run: |
-          docker pull docker.pkg.github.com/$GITHUB_REPOSITORY/runserver:latest
-          docker pull docker.pkg.github.com/$GITHUB_REPOSITORY/nodeserver:latest
+          docker pull $PACKAGE_PATH/runserver:latest
+          docker pull $PACKAGE_PATH/nodeserver:latest
       - run: mkdir -p data/aloe
       - name: Integration tests
         run: ./scripts/end2end-tests.sh
@@ -89,7 +91,7 @@ jobs:
       - uses: ./.github/actions/setup-env
       - name: Pull docker images
         run: |
-          docker pull docker.pkg.github.com/$GITHUB_REPOSITORY/runserver:latest
-          docker pull docker.pkg.github.com/$GITHUB_REPOSITORY/nodeserver:latest
+          docker pull $PACKAGE_PATH/runserver:latest
+          docker pull $PACKAGE_PATH/nodeserver:latest
       - name: Django checks
         run: ./scripts/django-checks.sh
