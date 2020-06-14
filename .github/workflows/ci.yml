@@ -22,7 +22,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Django migrations check
-        run: docker-compose run --rm runserver django-admin makemigrations --dry-run --noinput --check
+        run:
+          - touch .env_local
+          - docker-compose run --rm runserver django-admin makemigrations --dry-run --noinput --check
   # tests:
   #   name: Run tests
   #   runs-on: ubuntu-latest
