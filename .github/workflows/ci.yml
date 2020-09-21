@@ -16,6 +16,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Download previous run
+        run: ./scripts/download-prev-artifacts.sh
       - name: Make images dir
         run: mkdir /tmp/build_images
       - name: Build django image
