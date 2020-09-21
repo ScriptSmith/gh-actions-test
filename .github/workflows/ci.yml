@@ -9,6 +9,7 @@ on:
       - next_release
 env:
   OWNER: eresearchqut
+  DEFAULT_BRANCH: next_release
 
 jobs:
   build_images:
