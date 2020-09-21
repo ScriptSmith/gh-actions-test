@@ -23,7 +23,7 @@ if [[ "$ARTIFACTS_URL" == "" ]]; then
     exit 1
 fi
 
-IMAGES_URL=$(curl -L "$ARTIFACTS_URL" | jq -r '[.artifacts[] | select(.name=="build_images")][0].archive_download_url')
+IMAGES_URL=$(curl -L --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' "$ARTIFACTS_URL" | jq -r '[.artifacts[] | select(.name=="build_images")][0].archive_download_url')
 
 echo "Artifacts: $ARTIFACTS_URL"
 echo "Images: $IMAGES_URL"
