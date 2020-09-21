@@ -34,7 +34,7 @@ if [[ "$IMAGES_URL" == "null" ]]; then
 fi
 
 
-if ! wget --content-on-error -q $IMAGES_URL -O /tmp/prev_run.zip; then
+if ! wget --content-on-error --header "authorization: Bearer $GITHUB_TOKEN" -q $IMAGES_URL -O /tmp/prev_run.zip; then
     cat /tmp/prev_run.zip
 fi
 unzip /tmp/prev_run.zip -d /tmp/prev_run

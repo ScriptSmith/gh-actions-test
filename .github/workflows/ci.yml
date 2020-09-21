@@ -20,6 +20,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: Download previous run
         run: ./scripts/download-prev-artifacts.sh
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Make images dir
         run: mkdir /tmp/build_images
       - name: Build django image
