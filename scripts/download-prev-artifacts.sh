@@ -4,9 +4,9 @@
 #
 # DEFAULT_BRANCH: The name of the branch to find workflow runs in
 # GITHUB_REPOSITORY: The repository to search for artifacts in
-# GITHUB_WORKFLOW: The name of the GitHub Workflow
+# GITHUB_WORKFLOW_CODE: The name of the GitHub Workflow
 
-echo "https://api.github.com/repos/$GITHUB_REPOSITORY/actions/workflows/$GITHUB_WORKFLOW.yml/runs"
+echo "https://api.github.com/repos/$GITHUB_REPOSITORY/actions/workflows/$GITHUB_WORKFLOW_CODE.yml/runs"
 
 ARTIFACTS_URLS=$(curl -sL "https://api.github.com/repos/$GITHUB_REPOSITORY/actions/workflows/$GITHUB_WORKFLOW.yml/runs" | jq -r '.workflow_runs[] | select(.head_branch="next_release") | .artifacts_url')
 ARTIFACTS_URL=""

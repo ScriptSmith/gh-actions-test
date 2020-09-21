@@ -10,6 +10,7 @@ on:
 env:
   OWNER: eresearchqut
   DEFAULT_BRANCH: next_release
+  GITHUB_WORKFLOW_CODE: ci
 
 jobs:
   build_images:
