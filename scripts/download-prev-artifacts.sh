@@ -10,8 +10,8 @@ ARTIFACTS_URLS=$(curl -sL "https://api.github.com/repos/$GITHUB_REPOSITORY/actio
 ARTIFACTS_URL=""
 
 while IFS= read -r url; do
-    echo "$url"
-    count=$(curl -L "$url" | jq -r '.total_count')
+    echo "Looking for images in $url"
+    count=$(curl -sL "$url" | jq -r '.total_count')
     if [[ "$count" != "0" ]]; then
         ARTIFACTS_URL="$url"
         break
