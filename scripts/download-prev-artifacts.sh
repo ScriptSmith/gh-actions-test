@@ -33,7 +33,10 @@ if [[ "$IMAGES_URL" == "null" ]]; then
     exit 0
 fi
 
-curl -L --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' $IMAGES_URL -o /tmp/prev_run.zip
+
+if ! wget --content-on-error -q $IMAGES_URL -O /tmp/prev_run.zip; then
+    cat /tmp/prev_run.zip
+fi
 unzip /tmp/prev_run.zip -d /tmp/prev_run
 
 find /tmp/prev_run -maxdepth 1 -type f -exec docker load -i {} \;
