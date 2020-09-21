@@ -23,7 +23,7 @@ if [[ "$ARTIFACTS_URL" == "" ]]; then
     exit 1
 fi
 
-IMAGES_URL=$(curl -L --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' "$ARTIFACTS_URL" | jq -r '[.artifacts[] | select(.name=="build_images")][0].archive_download_url')
+IMAGES_URL=$(curl -L "$ARTIFACTS_URL" | jq -r '[.artifacts[] | select(.name=="build_images")][0].archive_download_url')
 
 echo "Artifacts: $ARTIFACTS_URL"
 echo "Images: $IMAGES_URL"
@@ -33,7 +33,7 @@ if [[ "$IMAGES_URL" == "null" ]]; then
     exit 0
 fi
 
-curl -L $IMAGES_URL -o /tmp/prev_run.zip
+curl -L --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' $IMAGES_URL -o /tmp/prev_run.zip
 unzip /tmp/prev_run.zip -d /tmp/prev_run
 
 find /tmp/prev_run -maxdepth 1 -type f -exec docker load -i {} \;
